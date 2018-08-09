@@ -3,10 +3,10 @@
 #' into raster data (geotiff or raster object in the R workspace)
 #'
 #' @param file CEIP txt data file
-#' @param out_dir output directory where to store data when writing to disk
 #' @param internal bolean TRUE / FALSE, write output to disk or return to
 #' R workspace
 #' @return geotiff written to disk or raster data returned to R workspace
+#' when written to disk the location of the txt file is used
 #' @keywords emission, voc
 #' @export
 #' @examples
@@ -16,7 +16,6 @@
 #'}
 
 ceip_grid <- function(file,
-                      out_dir = tempdir(),
                       internal = FALSE){
 
   # read in data
