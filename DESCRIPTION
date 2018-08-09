@@ -1,0 +1,25 @@
+Package: ceipr
+Title: Centre on Emission Inventories and Projections processing code
+Version: 0.1
+Author: Koen Hufkens <koen.hufkens@gmail.com>
+Maintainer: Koen Hufkens <koen.hufkens@gmail.com>
+Description: Interface Centre on Emission Inventories and Projections (CEIP) data
+Depends:
+    R (>= 3.4)
+Imports:
+    methods,
+    xml2,
+    graphics,
+    stats,
+    rvest,
+    raster,
+    sp,
+    ggplot2,
+    gganimate
+Suggests:
+    covr,
+    testthat
+License: AGPL-3
+LazyData: true
+ByteCompile: true
+RoxygenNote: 6.0.1
