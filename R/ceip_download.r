@@ -64,7 +64,6 @@ ceip_download <- function(
 
       lapply(txt_files, function(txt_file){
         try(ceip_grid(file = txt_file,
-                             out_dir = tempdir(),
                              internal = FALSE))
       })
 

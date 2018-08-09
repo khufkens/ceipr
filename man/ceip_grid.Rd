@@ -6,18 +6,17 @@
 Centre on Emission Inventories and Projections (CEIP)
 into raster data (geotiff or raster object in the R workspace)}
 \usage{
-ceip_grid(file, out_dir = tempdir(), internal = FALSE)
+ceip_grid(file, internal = FALSE)
 }
 \arguments{
 \item{file}{CEIP txt data file}
-
-\item{out_dir}{output directory where to store data when writing to disk}
 
 \item{internal}{bolean TRUE / FALSE, write output to disk or return to
 R workspace}
 }
 \value{
 geotiff written to disk or raster data returned to R workspace
+when written to disk the location of the txt file is used
 }
 \description{
 Converts text based data from the
