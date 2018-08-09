@@ -53,6 +53,18 @@ ceip_download <- function(
       utils::download.file(url = paste(base_url, year, zip_file, sep = "/"),
                     destfile = file.path(tempdir(), "tmp.zip"),
                     quiet = TRUE)
+
+      # check if the file was create if not raise a warning
+      if(!file.exists(file.path(tempdir(), "tmp.zip"))){
+        warning(paste0("No data available for pollutant: ",
+                       pollutant,
+                       " and year: ",
+                       year,
+                       " results will be unreliable!"))
+        return(NULL)
+      }
+
+      # if exist, continue to unzip etc
       utils::unzip(file.path(tempdir(), "tmp.zip"), exdir = tempdir())
 
       # convert only required data (sectors) to geotiffs
