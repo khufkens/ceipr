@@ -16,10 +16,11 @@
 #' ceip_download()
 #'}
 
-ceip_download <- function(pollutants = c("SOx"),
-                         sectors = "A", #c(LETTERS[1:13],"NT"),
-                         out_dir = "~",
-                         base_url = "http://webdab1.umweltbundesamt.at/download/gridding2018/"){
+ceip_download <- function(
+  pollutants = c("SOx"),
+  sectors = "A", #c(LETTERS[1:13],"NT"),
+  out_dir = "~",
+  base_url = "http://webdab1.umweltbundesamt.at/download/gridding2018/"){
 
   # clean tempdir of stray txt files
   # as tempdir content persists throught an R session

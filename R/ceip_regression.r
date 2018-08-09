@@ -17,16 +17,15 @@
 ceip_regression <- function(file = "~/SOx_A.tif",
                             out_dir = "~",
                             plot = FALSE){
-
-  # load required libraries
-  library(raster)
-  
   # read in the data
   s <- brick(file)
-  
+
+  # for statistical consistency set seed
+  set.seed(0)
+
   # regression of values in one brick (or stack) with 'time'
   time <- 1:nlayers(s)
-  
+
   # define different values to extract
   # sadly can't be done in one pass
   # calc only allows you to return one value
@@ -37,7 +36,7 @@ ceip_regression <- function(file = "~/SOx_A.tif",
       lm(x ~ time)$coefficients[2]
     }
   }
-  
+
   r2_fun <- function(x) {
     if(all(is.na(x))){
       NA
@@ -46,15 +45,25 @@ ceip_regression <- function(file = "~/SOx_A.tif",
       summary(fit)$r.squared
     }
   }
-  
+
+  p_fun <- function(x) {
+    if(all(is.na(x))){
+      NA
+    } else {
+      fit <- lm(x ~ time)
+      summary(fit)$coefficients[2,4]
+    }
+  }
+
   # calculate statistics
   slope <- raster::calc(s, slope_fun)
   r_squared <-raster::calc(s, r2_fun)
-  
+  p_value <-raster::calc(s, p_fun)
+
   # combine data, assign layer names
-  fit_data <- raster::stack(slope, r_squared)
-  names(fit_data) <- c("slope","r_squared")
-  
+  fit_data <- raster::stack(slope, r_squared, p_value)
+  names(fit_data) <- c("slope","r_squared", "p_value")
+
   # return a raster stack with regression
   # parameters
   return(fit_data)
