@@ -29,6 +29,8 @@ ceip_regression <- function(file = "~/SOx_A.tif",
   # define different values to extract
   # sadly can't be done in one pass
   # calc only allows you to return one value
+  # so every value needs a new regression
+  # run (hence set seed)
   slope_fun <- function(x) {
     if(all(is.na(x))){
       NA
@@ -51,7 +53,12 @@ ceip_regression <- function(file = "~/SOx_A.tif",
       NA
     } else {
       fit <- stats::lm(x ~ time)
-      summary(fit)$coefficients[2,4]
+      p <- try(summary(fit)$coefficients[2,4], silent = TRUE)
+      if(inherits(p, "try-error")){
+        return(NA)
+      } else {
+        p
+      }
     }
   }
 
