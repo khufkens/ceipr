@@ -3,19 +3,20 @@ Title: Centre on Emission Inventories and Projections processing code
 Version: 0.1
 Author: Koen Hufkens <koen.hufkens@gmail.com>
 Maintainer: Koen Hufkens <koen.hufkens@gmail.com>
-Description: Interface Centre on Emission Inventories and Projections (CEIP) data
+Description: Interface to the Centre on Emission Inventories and Projections
+  (CEIP) data.
 Depends:
     R (>= 3.4)
 Imports:
     methods,
     xml2,
+    tools,
     graphics,
     stats,
     rvest,
     raster,
     sp,
-    ggplot2,
-    gganimate
+    ggplot2
 Suggests:
     covr,
     testthat

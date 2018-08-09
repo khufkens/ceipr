@@ -16,15 +16,15 @@
 
 ceip_regression <- function(file = "~/SOx_A.tif",
                             out_dir = "~",
-                            plot = FALSE){
+                            internal = TRUE){
   # read in the data
-  s <- brick(file)
+  s <- raster::brick(file)
 
   # for statistical consistency set seed
   set.seed(0)
 
   # regression of values in one brick (or stack) with 'time'
-  time <- 1:nlayers(s)
+  time <- 1:raster::nlayers(s)
 
   # define different values to extract
   # sadly can't be done in one pass
@@ -33,7 +33,7 @@ ceip_regression <- function(file = "~/SOx_A.tif",
     if(all(is.na(x))){
       NA
     } else {
-      lm(x ~ time)$coefficients[2]
+      stats::lm(x ~ time)$coefficients[2]
     }
   }
 
@@ -41,7 +41,7 @@ ceip_regression <- function(file = "~/SOx_A.tif",
     if(all(is.na(x))){
       NA
     } else {
-      fit <- lm(x ~ time)
+      fit <- stats::lm(x ~ time)
       summary(fit)$r.squared
     }
   }
@@ -50,7 +50,7 @@ ceip_regression <- function(file = "~/SOx_A.tif",
     if(all(is.na(x))){
       NA
     } else {
-      fit <- lm(x ~ time)
+      fit <- stats::lm(x ~ time)
       summary(fit)$coefficients[2,4]
     }
   }
@@ -66,5 +66,12 @@ ceip_regression <- function(file = "~/SOx_A.tif",
 
   # return a raster stack with regression
   # parameters
-  return(fit_data)
+  if(internal){
+    return(fit_data)
+  } else {
+    raster::writeRaster(fit_data,
+                        paste0(tools::file_path_sans_ext(file),"_regression.tif"),
+                        overwrite = TRUE,
+                        options = "COMPRESS=DEFLATE")
+    }
 }

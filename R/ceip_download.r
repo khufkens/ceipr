@@ -50,10 +50,10 @@ ceip_download <- function(
       zip_file <- zip_files[grep(paste0(pollutant, ".*.zip"), zip_files)]
 
       # download and unzip the zipfile
-      download.file(url = paste(base_url, year, zip_file, sep = "/"),
+      utils::download.file(url = paste(base_url, year, zip_file, sep = "/"),
                     destfile = file.path(tempdir(), "tmp.zip"),
                     quiet = TRUE)
-      unzip(file.path(tempdir(), "tmp.zip"), exdir = tempdir())
+      utils::unzip(file.path(tempdir(), "tmp.zip"), exdir = tempdir())
 
       # convert only required data (sectors) to geotiffs
       txt_files <- list.files(tempdir(), paste0(pollutant,".*.txt"),

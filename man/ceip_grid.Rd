@@ -2,7 +2,7 @@
 % Please edit documentation in R/ceip_grid.r
 \name{ceip_grid}
 \alias{ceip_grid}
-\title{Converts text based data from the 
+\title{Converts text based data from the
 Centre on Emission Inventories and Projections (CEIP)
 into raster data (geotiff or raster object in the R workspace)}
 \usage{
@@ -20,7 +20,7 @@ R workspace}
 geotiff written to disk or raster data returned to R workspace
 }
 \description{
-Converts text based data from the 
+Converts text based data from the
 Centre on Emission Inventories and Projections (CEIP)
 into raster data (geotiff or raster object in the R workspace)
 }

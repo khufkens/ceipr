@@ -10,7 +10,7 @@ ceip_download(pollutants = c("SOx"), sectors = "A", out_dir = "~",
 }
 \arguments{
 \item{pollutants}{character string with pollutants
-(SOx, NOx, PM2_5, PM10, )}
+(CO, NH3, NMVOC, NOx, PM2_5, PM10, PMcoarse, SOx)}
 
 \item{sectors}{different societal sectors for which to compile the data
 as referenced by their abbreviation (A - N & NT)}
