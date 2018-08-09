@@ -26,7 +26,7 @@ The CEIP data covers data on a number of atmospheric pollutant emissions (CO, NH
 To install the toolbox in R run the following commands in a R terminal
 
 ```r
-if(!require(devtools)){install.packages(devtools)}
+if(!require(devtools)){install.packages("devtools")}
 devtools::install_github("khufkens/ceipr")
 library(ceipr)
 ```
