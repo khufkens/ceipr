@@ -16,10 +16,10 @@ The CEIP data covers data on a number of atmospheric pollutant emissions (CO, NH
 | H | Aviation |
 | I | Offroad |
 | J | Waste |
-| K | Agriculture Livestock |
-| M | Agriculture Other |
+| K | Agriculture - Livestock |
+| M | Agriculture - Other |
 | N | Other |
-| NT | Not Assigned |
+| NT | National Total |
 
 ## Installation
 
@@ -50,10 +50,19 @@ You can analyze trends in the emission values using an ordinary linear regressio
 ```r
 ceip_regression(file = "/your/output/directory/NOx_A.tif")
 ```
+TODO: plot trends function
+
 
 ### Animate data
 
-TODO
+Time series stacks can be animated using the ceip_animate() function
 
+```r
+ceip_regression(file = "/your/output/directory/NOx_NT.tif",
+                region = "belgium")
+# NOTE, the NOx_NT.tif data was not downloaded
+# due to the size of the National Totals. However,
+# the plot below is generated using the NT data.
+```
 
-
+![]()
