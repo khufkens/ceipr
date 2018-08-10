@@ -65,4 +65,4 @@ ceip_regression(file = "/your/output/directory/NOx_NT.tif",
 # the plot below is generated using the NT data.
 ```
 
-![]()
+![](https://raw.githubusercontent.com/khufkens/ceipr/master/docs/NOx_NT_Belgium.gif)
