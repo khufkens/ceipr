@@ -50,10 +50,22 @@ ceip_download <- function(
       zip_file <- zip_files[grep(paste0(pollutant, ".*.zip"), zip_files)]
 
       # download and unzip the zipfile
-      download.file(url = paste(base_url, year, zip_file, sep = "/"),
+      utils::download.file(url = paste(base_url, year, zip_file, sep = "/"),
                     destfile = file.path(tempdir(), "tmp.zip"),
                     quiet = TRUE)
-      unzip(file.path(tempdir(), "tmp.zip"), exdir = tempdir())
+
+      # check if the file was create if not raise a warning
+      if(!file.exists(file.path(tempdir(), "tmp.zip"))){
+        warning(paste0("No data available for pollutant: ",
+                       pollutant,
+                       " and year: ",
+                       year,
+                       " results will be unreliable!"))
+        return(NULL)
+      }
+
+      # if exist, continue to unzip etc
+      utils::unzip(file.path(tempdir(), "tmp.zip"), exdir = tempdir())
 
       # convert only required data (sectors) to geotiffs
       txt_files <- list.files(tempdir(), paste0(pollutant,".*.txt"),
@@ -64,7 +76,6 @@ ceip_download <- function(
 
       lapply(txt_files, function(txt_file){
         try(ceip_grid(file = txt_file,
-                             out_dir = tempdir(),
                              internal = FALSE))
       })
 
@@ -80,8 +91,12 @@ ceip_download <- function(
       tif_files <- list.files(tempdir(),paste0("^.*_",sector,"_.*\\.tif$"),
                               full.names = TRUE)
 
+      # add proper names to stack layers
+      s <- raster::stack(tif_files)
+      names(s) <- years
+
       # write stack to file
-      raster::writeRaster(raster::stack(tif_files),
+      raster::writeRaster(s,
                   file.path(out_dir, paste0(pollutant,"_",sector,".tif")),
                   overwrite = TRUE)
 

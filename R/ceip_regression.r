@@ -16,55 +16,53 @@
 
 ceip_regression <- function(file = "~/SOx_A.tif",
                             out_dir = "~",
-                            plot = FALSE){
+                            internal = TRUE){
   # read in the data
-  s <- brick(file)
+  s <- raster::brick(file)
 
   # for statistical consistency set seed
   set.seed(0)
 
   # regression of values in one brick (or stack) with 'time'
-  time <- 1:nlayers(s)
+  time <- 1:raster::nlayers(s)
 
-  # define different values to extract
-  # sadly can't be done in one pass
-  # calc only allows you to return one value
+  # extract regression parameters
   slope_fun <- function(x) {
     if(all(is.na(x))){
-      NA
+      rep(NA,3)
     } else {
-      lm(x ~ time)$coefficients[2]
-    }
-  }
+      fit <- stats::lm(x ~ time)
+      slope <- fit$coefficients[2]
 
-  r2_fun <- function(x) {
-    if(all(is.na(x))){
-      NA
-    } else {
-      fit <- lm(x ~ time)
-      summary(fit)$r.squared
-    }
-  }
+      p <- try(summary(fit)$coefficients[2,4], silent = TRUE)
+      if(inherits(p, "try-error")){
+        p <- NA
+      }
 
-  p_fun <- function(x) {
-    if(all(is.na(x))){
-      NA
-    } else {
-      fit <- lm(x ~ time)
-      summary(fit)$coefficients[2,4]
+      r2 <- try(summary(fit)$r.squared, silent = TRUE)
+      if(inherits(r2, "try-error")){
+        r2 <- NA
+      }
+
+      # return data
+      return(as.numeric(c(slope, r2, p)))
     }
   }
 
   # calculate statistics
-  slope <- raster::calc(s, slope_fun)
-  r_squared <-raster::calc(s, r2_fun)
-  p_value <-raster::calc(s, p_fun)
+  fit_data <- raster::calc(s, slope_fun)
 
   # combine data, assign layer names
-  fit_data <- raster::stack(slope, r_squared, p_value)
   names(fit_data) <- c("slope","r_squared", "p_value")
 
   # return a raster stack with regression
   # parameters
-  return(fit_data)
+  if(internal){
+    return(fit_data)
+  } else {
+    raster::writeRaster(fit_data,
+                        paste0(tools::file_path_sans_ext(file),"_regression.tif"),
+                        overwrite = TRUE,
+                        options = "COMPRESS=DEFLATE")
+    }
 }
