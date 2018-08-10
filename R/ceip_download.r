@@ -91,8 +91,12 @@ ceip_download <- function(
       tif_files <- list.files(tempdir(),paste0("^.*_",sector,"_.*\\.tif$"),
                               full.names = TRUE)
 
+      # add proper names to stack layers
+      s <- raster::stack(tif_files)
+      names(s) <- years
+
       # write stack to file
-      raster::writeRaster(raster::stack(tif_files),
+      raster::writeRaster(s,
                   file.path(out_dir, paste0(pollutant,"_",sector,".tif")),
                   overwrite = TRUE)
 

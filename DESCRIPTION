@@ -10,6 +10,9 @@ Depends:
 Imports:
     methods,
     xml2,
+    mapproj,
+    maps,
+    mapdata,
     tools,
     graphics,
     stats,
@@ -17,7 +20,11 @@ Imports:
     rgdal,
     raster,
     sp,
-    ggplot2
+    ggplot2,
+    ggthemes,
+    viridis,
+    rgeos,
+    animation
 Suggests:
     covr,
     testthat
