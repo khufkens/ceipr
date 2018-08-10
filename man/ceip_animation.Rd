@@ -6,9 +6,8 @@
 and Projections (CEIP) data into an animated gif for terrestrial locations.}
 \usage{
 ceip_animation(file = "~/SOx_A.tif", output_file = "~/test.gif",
-  region = NULL, width = 1200, height = 1200, xlim = c(-30, 90),
-  ylim = c(30, 82), upper_limit = 15000, time_step = 0.5,
-  country = NULL)
+  region = "belgium", width = 1200, height = 1200, xlim = c(-30, 90),
+  ylim = c(30, 82), upper_limit = 15000, time_step = 0.5)
 }
 \arguments{
 \item{file}{CEIP txt data file}

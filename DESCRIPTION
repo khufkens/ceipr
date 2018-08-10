@@ -22,9 +22,11 @@ Imports:
     sp,
     ggplot2,
     ggthemes,
-    viridis,
     rgeos,
-    animation
+    animation,
+    grDevices,
+    RColorBrewer,
+    maptools
 Suggests:
     covr,
     testthat

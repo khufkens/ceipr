@@ -16,10 +16,6 @@ maps_to_sp = function(regions = "Belgium",
                    length_out = 100,
                    clip = TRUE) {
 
-  stopifnot(require(maps))
-  stopifnot(require(mapdata))
-  stopifnot(require(maptools))
-
   m = maps::map(database = "worldHires",
                 regions = regions,
                 xlim = xlim,
@@ -27,21 +23,21 @@ maps_to_sp = function(regions = "Belgium",
                 plot = FALSE,
                 fill = TRUE)
 
-  LL = CRS("+init=epsg:4326")
+  LL = sp::CRS("+init=epsg:4326")
   IDs <- sapply(strsplit(m$names, ":"), function(x) x[1])
-  m = map2SpatialPolygons(m, IDs=IDs, proj4string = LL)
-  m = gBuffer(m, byid=TRUE, width=0)
+  m = maptools::map2SpatialPolygons(m, IDs=IDs, proj4string = LL)
+  m = rgeos::gBuffer(m, byid=TRUE, width=0)
 
-  p = rbind(cbind(xlim[1], seq(ylim[1],ylim[2],length.out = l.out)),
+  p = rbind(cbind(xlim[1], seq(ylim[1],ylim[2],length.out = length_out)),
             cbind(seq(xlim[1],xlim[2],length.out = length_out),ylim[2]),
             cbind(xlim[2],seq(ylim[2],ylim[1],length.out = length_out)),
             cbind(seq(xlim[2],xlim[1],length.out = length_out),ylim[1]))
-  bb = SpatialPolygons(list(Polygons(list(Polygon(list(p))),"bb")), proj4string = LL)
+  bb = sp::SpatialPolygons(list(sp::Polygons(list(sp::Polygon(list(p))),"bb")),
+                           proj4string = LL)
 
   if (!clip)
     return(list(m,bb))
   else {
-    stopifnot(require(rgeos))
     m = rgeos::gIntersection(m, bb)
     return(list(m, bb))
   }
