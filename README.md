@@ -1,3 +1,7 @@
+```diff
+- This project is very much in flux... use with caution, things might break!
+```
+
 ## Introduction
 
 Interface Centre on Emission Inventories and Projections (CEIP) data to visualize emission contributions by sector across Europe. All data is sourced from the open CEIP website (www.ceip.at, CEIP 2018). A number of functions allows you to easily download, visualize and analyze the CEIP data.
