@@ -3,9 +3,9 @@
 #' The download routine will recreate the CEIP file structure in the output
 #' directory (sorting files in folders by year).
 #'
-#' @param pollutants character string with pollutants
+#' @param pollutant character string with pollutants
 #' (CO, NH3, NMVOC, NOx, PM2_5, PM10, PMcoarse, SOx)
-#' @param years years to download (all = 2000:2016)
+#' @param year years to download (all = 2000:2016)
 #' @param out_dir output directory (default = tempdir())
 #' @param base_url source url to download data from
 #' @return Downloads ceip zip files into the output directory. CRAN policy does
@@ -24,8 +24,7 @@ ceip_download <- function(
   pollutant = c("SOx", "NOx"),
   year = 2000:2016,
   out_dir = tempdir(),
-  base_url = "http://webdab1.umweltbundesamt.at/download/gridding2018/",
-  silent = FALSE){
+  base_url = "http://webdab1.umweltbundesamt.at/download/gridding2018/"){
 
   # check if output directory exists
   if(!dir.exists(out_dir)){

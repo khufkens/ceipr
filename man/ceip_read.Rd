@@ -4,7 +4,7 @@
 \alias{ceip_read}
 \title{Load CEIP zipped data into a tidy data frame}
 \usage{
-ceip_read(pollutant = "SOx", sector = c("A", "B"),
+ceip_read(pollutant = "NOx", sector = c("A", "B"),
   path = "~/Desktop/tmp/")
 }
 \arguments{

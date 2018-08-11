@@ -6,18 +6,17 @@
 \usage{
 ceip_download(pollutant = c("SOx", "NOx"), year = 2000:2016,
   out_dir = tempdir(),
-  base_url = "http://webdab1.umweltbundesamt.at/download/gridding2018/",
-  silent = FALSE)
+  base_url = "http://webdab1.umweltbundesamt.at/download/gridding2018/")
 }
 \arguments{
+\item{pollutant}{character string with pollutants
+(CO, NH3, NMVOC, NOx, PM2_5, PM10, PMcoarse, SOx)}
+
+\item{year}{years to download (all = 2000:2016)}
+
 \item{out_dir}{output directory (default = tempdir())}
 
 \item{base_url}{source url to download data from}
-
-\item{pollutants}{character string with pollutants
-(CO, NH3, NMVOC, NOx, PM2_5, PM10, PMcoarse, SOx)}
-
-\item{years}{years to download (all = 2000:2016)}
 }
 \value{
 Downloads ceip zip files into the output directory. CRAN policy does

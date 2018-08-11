@@ -43,9 +43,8 @@ ceip_data_file <- function(year, pollutant, sector) {
 
 #' Reads internal file from a zip file (unzip in memory)
 #'
-#' @param path location of a zip file (url / or local path)
-#' @param pollutant different pollutants
-#' @param year year to download
+#' @param zip location of a zip file (url / or local path)
+#' @param filename filename in the zip file to extract
 #' @return reads a specific file
 #' @export
 ceip_read_zip <- function(zip, filename) {

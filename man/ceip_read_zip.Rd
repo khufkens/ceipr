@@ -7,11 +7,9 @@
 ceip_read_zip(zip, filename)
 }
 \arguments{
-\item{path}{location of a zip file (url / or local path)}
+\item{zip}{location of a zip file (url / or local path)}
 
-\item{pollutant}{different pollutants}
-
-\item{year}{year to download}
+\item{filename}{filename in the zip file to extract}
 }
 \value{
 reads a specific file
