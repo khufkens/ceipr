@@ -14,7 +14,7 @@
 #' data using included functions.
 #' @export
 
-ceip_read <- function(pollutant = "SOx",
+ceip_read <- function(pollutant = "NOx",
                       sector = c("A","B"),
                       path = "~/Desktop/tmp/") {
 
@@ -47,7 +47,7 @@ ceip_read <- function(pollutant = "SOx",
 
         # read in data using all necessary specifies
         # query data directly from zip file
-        df <- try(ceip_read_zip(z, data_file(y,p,s)))
+        df <- try(ceip_read_zip(z, ceip_data_file(y,p,s)))
 
         # trap import errors, mainly corrupted
         # zip files, file will be skipped

@@ -83,9 +83,6 @@ ceip_read_zip <- function(zip, filename) {
     delim = delim,
     locale = us_locale
   )
-
-  # explicitely closed to avoid warnings due to time-out
-  closeAllConnections()
 }
 
 #' converts ceip subset data frame to a raster
