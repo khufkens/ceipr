@@ -32,9 +32,9 @@ ceip_to_raster <- function(df,
                       trim = TRUE,
                       internal = TRUE){
 
-  # sanity checks
-  if(nrow(df) == 0 | is.null(df)){
-    stop("Data file is empty, check df parameter!")
+  # check if the data class is correct
+  if(!any(class(df) == "ceipr_data")){
+    stop("Data is not of class ceipr_data, not valid ceipr data!")
   }
 
   # convert the data from a dataframe to a raster
@@ -56,8 +56,13 @@ ceip_to_raster <- function(df,
   # combine all data into a stack
   rasters <- raster::stack(rasters)
 
-  # trim the raster (shrink to area covered)
-  # if required
+  # check if there is data in the resulting
+  # raster stack if not bail
+  if (nlayers(rasters) == 0){
+    stop("Data subset is empty, check your input parameters and data file!")
+  }
+
+  # if required trim the raster
   if (trim){
     rasters <- raster::trim(rasters)
   }

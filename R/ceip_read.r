@@ -60,6 +60,10 @@ ceip_read <- function(pollutant = "NOx",
         # assign clean sector label (abbreviated)
         df$sector_abbr <- s
 
+        # add a custom ceipr class for data
+        # identification (sanity checks)
+        class(df) <- c(class(df),"ceipr_data")
+
         # return data frame to be collated
         # using bind_rows()
         return(df)
