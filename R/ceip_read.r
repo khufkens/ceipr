@@ -8,6 +8,7 @@
 #'
 #' @param sector CEIP sectors
 #' @param pollutant different pollutants
+#' @param year which years to include in the data compilation
 #' @param path path with original CEIP zip files
 #' @return Returns a data frame (tibble) of CEIP data. This data is tidy
 #' and can be easily used in statistical analysis. Or converted to geospatial
@@ -16,10 +17,11 @@
 
 ceip_read <- function(pollutant = "NOx",
                       sector = c("A","B"),
+                      year = 2000:2016,
                       path = "~/Desktop/tmp/") {
 
   # list zip files in path
-  zip_files <- list.files(path,"*.zip",
+  zip_files <- list.files(paste0(path, year),"*.zip",
                           recursive = TRUE,
                           full.names = TRUE)
 

@@ -4,13 +4,15 @@
 \alias{ceip_read}
 \title{Load CEIP zipped data into a tidy data frame}
 \usage{
-ceip_read(pollutant = "NOx", sector = c("A", "B"),
+ceip_read(pollutant = "NOx", sector = c("A", "B"), year = 2000:2016,
   path = "~/Desktop/tmp/")
 }
 \arguments{
 \item{pollutant}{different pollutants}
 
 \item{sector}{CEIP sectors}
+
+\item{year}{which years to include in the data compilation}
 
 \item{path}{path with original CEIP zip files}
 }
