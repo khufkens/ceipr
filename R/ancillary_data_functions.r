@@ -26,6 +26,7 @@ ceip_add_population <- function(df) {
   if(!all(c("iso2","year") %in% names(df))) {
     stop("Data must contain an iso2 (country code) and year variable.")
   }
+
   suppressMessages(
     # Load the data set for EU population data
     EU_population_data <- eurostat::get_eurostat("tps00001") %>%
@@ -72,9 +73,10 @@ ceip_population_emissions <- function(df) {
 #' @export
 
 ceip_totals <- function(df) {
-  if(!any(class(df) == "ceipr_data")){
-    stop("Data is not of class ceipr_data, not valid ceipr data!")
+  if(!all(c("iso2","year","pollutant","sector_abbr","unit") %in% names(df))) {
+    stop("Data does not appear to be ceipr_data.")
   }
+
   totals <- df %>%
       dplyr::group_by(iso2,year,pollutant,sector,sector_abbr,unit) %>%
       dplyr::summarise(total_emissions = sum(emission))

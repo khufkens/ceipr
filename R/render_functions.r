@@ -16,15 +16,18 @@ ceip_trends <- function(df,
                         subject = "",
                         title = paste(subject,"trends per",
                                       group_label,sep = " ")){
-  if(!any(class(df) == "ceipr_totals")){
-    stop("Data is not of class ceipr_totals, did you use ceip_totals to convert to totals?")
+  if(!all(c("total_emissions","year") %in% names(df))) {
+    stop("Data must contain an total_emissions and year variable.")
   }
-  ggplot2::ggplot(pollution_totals) +
+
+  unit <- df[1,]$unit
+
+  ggplot2::ggplot(df) +
     ggplot2::geom_line(mapping= ggplot2::aes_string(x="year",y="total_emissions",color=group)) +
     ggplot2::labs(
       title = title,
       x = "Year",
-      y = "Emissions (ton)",
+      y = glue::glue("Emissions ({unit})"),
       color = group_label)
 }
 

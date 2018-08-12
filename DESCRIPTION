@@ -31,7 +31,8 @@ Imports:
     RColorBrewer,
     maptools,
     dplyr,
-    countrycode
+    countrycode,
+    glue
 Suggests:
     covr,
     testthat

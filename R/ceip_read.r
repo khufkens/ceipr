@@ -20,68 +20,89 @@ ceip_read <- function(pollutant = "NOx",
                       sector = toupper(letters[1:13]),
                       year = 2000:2016,
                       country = NULL,
-                      path = "~/Desktop/tmp/") {
+                      path = "~/Desktop/tmp/",
+                      silent = FALSE) {
 
-  # list zip files in path
-  zip_files <- list.files(paste0(path, '/' ,year),"*.zip",
-                          recursive = TRUE,
-                          full.names = TRUE)
-  if(!pollutant == "ALL") {
-    # subset based upon pollutant
-    zip_files <- zip_files[grep(pollutant,
-                                basename(zip_files))]
-  } else {
-    pollutant <- ceip_sector_meta_data()$abbreviation
+  if(pollutant == "ALL") {
+    pollutant <- ceip_sector_meta_data()
   }
 
-  # trap errors if no files are detected
-  if(length(zip_files) == 0){
-    stop("No files retained in query, check path for correct file locations
-         and the parameters specified !")
-  }
+  # progress bar:
+  total_iterations <- length(year) * length(pollutant) * length(sector)
+  pb <- txtProgressBar(min = 0, max = total_iterations, style = 3)
+  iteration <- 0
 
-  # Parse directly from zip file using code from
-  # Thomas Goorden (helper functions), by default
+  # Parse directly from zip file. By default
   # all years are automatically included. Selection
   # of the years is done in the ceip_download() function.
-  dplyr::bind_rows(purrr::map(zip_files, function(z) {
-    dplyr::bind_rows(purrr::map(pollutant, function(p) {
-      dplyr::bind_rows(purrr::map(sector, function(s) {
-
-        # extract year from zip file
-        filename <- tools::file_path_sans_ext(basename(z))
-        y <- rev(unlist(strsplit(filename,"_")))[1]
-
-        # read in data using all necessary specifies
-        # query data directly from zip file
-        df <- try(ceip_read_zip(z, ceip_data_file(y,p,s)))
-
-
-        # trap import errors, mainly corrupted
-        # zip files, file will be skipped
-        if(inherits(df, "try-error")){
-          message(paste("Import failed for:", z))
-          message("The file will be skipped!")
+  return (
+    dplyr::bind_rows(purrr::map(year, function(y) {
+      dplyr::bind_rows(purrr::map(pollutant, function(p) {
+        # list zip files in path
+        zip_files <- list.files(paste0(path, '/' ,y),"*.zip",
+                                recursive = TRUE,
+                                full.names = TRUE)
+        # subset based upon pollutant
+        zip_files <- zip_files[grep(p,basename(zip_files))]
+        # trap errors if no files are detected
+        if(length(zip_files) > 1){
+          stop(glue::glue("More than one zip file found for pollutant {p} in year {y}: {zip_files}"))
+        }
+        if (length(zip_files) == 0) {
+          message(glue::glue("No zip file found for {p} in year {y}, skipping."))
           return(NULL)
+        } else {
+          z <- dplyr::first(zip_files)
+          dplyr::bind_rows(purrr::map(sector, function(s) {
+            # extract year from zip file
+            filename <- tools::file_path_sans_ext(basename(z))
+            y <- rev(unlist(strsplit(filename,"_")))[1]
+
+            # read in data using all necessary specifies
+            # query data directly from zip file
+            df <- try(ceip_read_zip(z, ceip_data_file(y,p,s)))
+
+
+            # trap import errors, mainly corrupted
+            # zip files, file will be skipped
+            if(inherits(df, "try-error")){
+              message(paste("Import failed for:", z))
+              message("The file will be skipped!")
+              return(NULL)
+            }
+
+            # to limit the amount of data returned as much as possible:
+            if(!is.null(country)) {
+              df <- dplyr::filter(df,iso2 %in% country)
+            }
+
+            if (nrow(df) == 0) {
+              # warning(paste("No data found",z,p,s,sep = " - "))
+              return(NULL)
+            }
+
+            # assign clean sector label (abbreviated)
+            df$sector_abbr <- s
+
+            # add a custom ceipr class for data
+            # identification (sanity checks)
+            class(df) <- c(class(df),"ceipr_data")
+
+            # free up memory
+            gc()
+            # update progress bar
+            iteration <- iteration + 1
+            setTxtProgressBar(pb, iteration)
+
+            # return data frame to be collated
+            # using bind_rows()
+            return(df)
+
+
+          }))
         }
-
-        # to limit the amount of data returned as much as possible:
-        if(!is.null(country)) {
-          df <- dplyr::filter(df,iso2 %in% country)
-            filter(df,iso2==country)
-        }
-
-        # assign clean sector label (abbreviated)
-        df$sector_abbr <- s
-
-        # add a custom ceipr class for data
-        # identification (sanity checks)
-        class(df) <- c(class(df),"ceipr_data")
-
-        # return data frame to be collated
-        # using bind_rows()
-        return(df)
       }))
     }))
-  }))
+  )
+  close(pb)
 }

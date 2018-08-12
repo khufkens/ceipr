@@ -20,11 +20,13 @@ sector_meta_data <- NULL
 #' @export
 ceip_sector_meta_data <- function() {
    if (is.null(sector_meta_data)) {
-     sector_meta_data <- utils::read.table(sprintf("%s/inst/extdata/ceip_meta_data.csv",
+     csv <- utils::read.table(sprintf("%s/inst/extdata/ceip_meta_data.csv",
                                                path.package("ceipr")),
                                        sep = ",",
                                        header = TRUE,
                                        stringsAsFactors = FALSE)
+     sector_meta_data <- csv$abbreviation
+     names(sector_meta_data) <- csv$sector
    }
   return(sector_meta_data)
 }
@@ -40,7 +42,7 @@ ceip_data_file <- function(year, pollutant, sector) {
   meta_data <- ceip_sector_meta_data()
   # create data file string
   data_file <- paste0(pollutant,'_',sector,'_',
-        gsub(" ", "", meta_data$sector[which(meta_data$abbreviation == sector)]),
+        gsub(" ", "", names(which(ceipr::ceip_sector_meta_data() == sector))),
         '_2018_GRID_',year,'.txt')
 
   # if sectior is "NT" (National Total) strip long form name
