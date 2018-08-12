@@ -29,7 +29,8 @@ Imports:
     eurostat,
     grDevices,
     RColorBrewer,
-    maptools
+    maptools,
+    dplyr
 Suggests:
     covr,
     testthat
