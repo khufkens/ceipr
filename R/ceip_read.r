@@ -20,7 +20,7 @@
 #' @export
 
 ceip_read <- function(pollutant = "NOx",
-                      sector = c(LETTERS[1:13],"NT"),
+                      sector = LETTERS[1:13],
                       year = 2000:2016,
                       country = NULL,
                       path = tempdir()) {
