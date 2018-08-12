@@ -42,7 +42,7 @@ ceip_add_population <- function(df) {
 #' @keywords emission, voc, population
 #' @export
 
-ceip_population_emissions <- function(ceipr) {
+ceip_population_emissions <- function(df) {
 
   # check if the data class is correct
   if(!any(class(df) == "ceipr_data")){
@@ -56,5 +56,5 @@ ceip_population_emissions <- function(ceipr) {
   }
 
   # calculate the emissions per capita
-  ceipr$population_emission <- with(ceipr,emission/population)
+  ceipr$population_emission <- with(df, emission/population)
 }
