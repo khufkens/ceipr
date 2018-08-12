@@ -12,6 +12,23 @@ ceip_zip_file <- function(path, year, pollutant) {
   paste0(path,'/',year,'/',pollutant,'_2018_GRID_',year,'.zip')
 }
 
+# Internal singleton
+sector_meta_data <- NULL
+
+#' Sector meta data (code, name, etc)
+#' @return sector meta data
+#' @export
+ceip_sector_meta_data <- function() {
+   if (is.null(sector_meta_data)) {
+     sector_meta_data <- utils::read.table(sprintf("%s/inst/extdata/ceip_meta_data.csv",
+                                               path.package("ceipr")),
+                                       sep = ",",
+                                       header = TRUE,
+                                       stringsAsFactors = FALSE)
+   }
+  return(sector_meta_data)
+}
+
 #' Formats the name of the CEIP file inside the zip file
 #'
 #' @param sector CEIP sectors
@@ -20,14 +37,7 @@ ceip_zip_file <- function(path, year, pollutant) {
 #' @return url location
 #' @export
 ceip_data_file <- function(year, pollutant, sector) {
-
-  # read in meta data (sectors)
-  meta_data <- utils::read.table(sprintf("%s/inst/extdata/ceip_meta_data.csv",
-                                         path.package("ceipr")),
-                                 sep = ",",
-                                 header = TRUE,
-                                 stringsAsFactors = FALSE)
-
+  meta_data <- ceip_sector_meta_data()
   # create data file string
   data_file <- paste0(pollutant,'_',sector,'_',
         gsub(" ", "", meta_data$sector[which(meta_data$abbreviation == sector)]),
@@ -74,14 +84,17 @@ ceip_read_zip <- function(zip, filename) {
                       grouping_mark = ',')
 
   # read in thet data directly from zip file
-  readr::read_delim(
-    unz(zip, filename),
-    comment = comment,
-    col_names = csv_column_names,
-    col_types = csv_col_types,
-    delim = delim,
-    locale = us_locale
+  return(
+    readr::read_delim(
+      unz(zip, filename),
+      comment = comment,
+      col_names = csv_column_names,
+      col_types = csv_col_types,
+      delim = delim,
+      locale = us_locale
+    )
   )
+  closeAllConnections() # explicitely closed to avoid warnings due to time-out
 }
 
 #' converts ceip subset data frame to a raster

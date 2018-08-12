@@ -6,28 +6,33 @@
 #' using the ceip_download() function as it is less likely to cause time-out
 #' issues and will limit overall traffic to the server.
 #'
-#' @param sector CEIP sectors
-#' @param pollutant different pollutants
+#' @param sector CEIP sectors (default is all sectors from A to M)
+#' @param pollutant which pollutant to include (use "ALL" for all pollutantslet or "NT" for National Totals)
 #' @param year which years to include in the data compilation
 #' @param path path with original CEIP zip files
+#' @param country ISO2 country code (two letters)
 #' @return Returns a data frame (tibble) of CEIP data. This data is tidy
 #' and can be easily used in statistical analysis. Or converted to geospatial
 #' data using included functions.
 #' @export
 
 ceip_read <- function(pollutant = "NOx",
-                      sector = c("A","B"),
+                      sector = toupper(letters[1:13]),
                       year = 2000:2016,
+                      country = NULL,
                       path = "~/Desktop/tmp/") {
 
   # list zip files in path
   zip_files <- list.files(paste0(path, '/' ,year),"*.zip",
                           recursive = TRUE,
                           full.names = TRUE)
-
-  # subset based upon pollutant
-  zip_files <- zip_files[grep(pollutant,
-                              basename(zip_files))]
+  if(!pollutant == "ALL") {
+    # subset based upon pollutant
+    zip_files <- zip_files[grep(pollutant,
+                                basename(zip_files))]
+  } else {
+    pollutant <- ceip_sector_meta_data()$abbreviation
+  }
 
   # trap errors if no files are detected
   if(length(zip_files) == 0){
@@ -51,12 +56,19 @@ ceip_read <- function(pollutant = "NOx",
         # query data directly from zip file
         df <- try(ceip_read_zip(z, ceip_data_file(y,p,s)))
 
+
         # trap import errors, mainly corrupted
         # zip files, file will be skipped
         if(inherits(df, "try-error")){
           message(paste("Import failed for:", z))
           message("The file will be skipped!")
           return(NULL)
+        }
+
+        # to limit the amount of data returned as much as possible:
+        if(!is.null(country)) {
+          df <- dplyr::filter(df,iso2 %in% country)
+            filter(df,iso2==country)
         }
 
         # assign clean sector label (abbreviated)

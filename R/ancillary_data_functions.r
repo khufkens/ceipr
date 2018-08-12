@@ -5,7 +5,7 @@
 check_for_totals <- function(df) {
   # check if the data class is correct
   if(!any(class(df) == "ceipr_totals")){
-    if(any(class(df)) == "ceipt_data") {
+    if(any(class(df) == "ceipt_data")) {
       warning("Data is of class ceipr_data, adding meta_data to this (raw) data is not recommended. Use ceip_totals to convert to totals")
     } else {
       stop("Data is not of class ceipr_totals, not valid ceipr data!")
@@ -23,19 +23,21 @@ check_for_totals <- function(df) {
 
 ceip_add_population <- function(df) {
   # sanity check:
-  check_for_totals(df)
-
-  # Load the data set for EU population data
-  EU_population_data <- eurostat::get_eurostat("tps00001") %>%
-    # convert the timestamp to a year, for better referencing
-    dplyr::mutate(year=strtoi(format(time,'%Y')),geo=as.character(geo)) %>%
-    # rename some variables to make things easier
-    dplyr::rename(population = values,eurostat=geo) %>%
-    # add country names and EU status
-    dplyr::left_join(countrycode::codelist_panel,by=c("year","eurostat")) %>%
-    # narrow the results down
-    dplyr::select(iso2 = iso2c,country=country.name.en,population,eu28,year)
-
+  if(!all(c("iso2","year") %in% names(df))) {
+    stop("Data must contain an iso2 (country code) and year variable.")
+  }
+  suppressMessages(
+    # Load the data set for EU population data
+    EU_population_data <- eurostat::get_eurostat("tps00001") %>%
+      # convert the timestamp to a year, for better referencing
+      dplyr::mutate(year=strtoi(format(time,'%Y')),geo=as.character(geo)) %>%
+      # rename some variables to make things easier
+      dplyr::rename(population = values,eurostat=geo) %>%
+      # add country names and EU status
+      dplyr::left_join(countrycode::codelist_panel,by=c("year","eurostat")) %>%
+      # narrow the results down
+      dplyr::select(iso2 = iso2c,country=country.name.en,population,eu28,year)
+  )
   return(
     dplyr::left_join(df, EU_population_data, by = c("iso2","year"))
   )
@@ -60,7 +62,7 @@ ceip_population_emissions <- function(df) {
   }
 
   # calculate the emissions per capita
-  ceipr$population_emission <- with(df, emission/population)
+  ceipr$total_emissions_pp <- with(df, 10^6 * emission/population)
 }
 
 #' Summarize emission totals

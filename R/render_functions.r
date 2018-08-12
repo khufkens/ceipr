@@ -16,18 +16,12 @@ ceip_trends <- function(df,
                         subject = "",
                         title = paste(subject,"trends per",
                                       group_label,sep = " ")){
-
-  # check if the data class is correct
-  if(!any(class(df) == "ceipr_data")){
-    stop("Data is not of class ceipr_data, not valid ceipr data!")
+  if(!any(class(df) == "ceipr_totals")){
+    stop("Data is not of class ceipr_totals, did you use ceip_totals to convert to totals?")
   }
-
-  # calculate trends
-  pollution_totals <- dplyr::group_by(df,.dots=group,year) %>%
-    dplyr::summarise(total = sum(emission))
-  ggplot(pollution_totals) +
-    geom_line(mapping= aes_string(x="year",y="total",color=group)) +
-    labs(
+  ggplot2::ggplot(pollution_totals) +
+    ggplot2::geom_line(mapping= ggplot2::aes_string(x="year",y="total_emissions",color=group)) +
+    ggplot2::labs(
       title = title,
       x = "Year",
       y = "Emissions (ton)",
