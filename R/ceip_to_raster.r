@@ -63,6 +63,7 @@ ceip_to_raster <- function(df,
   }
 
   # if required trim the raster
+  # shrink extent to data coverage
   if (trim){
     rasters <- raster::trim(rasters)
   }

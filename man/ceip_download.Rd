@@ -5,8 +5,7 @@
 \title{Download zipped Centre on Emission Inventories and Projections (CEIP) data}
 \usage{
 ceip_download(pollutant = c("SOx", "NOx"), year = 2000:2016,
-  out_dir = tempdir(),
-  base_url = "http://webdab1.umweltbundesamt.at/download/gridding2018/")
+  out_dir = tempdir())
 }
 \arguments{
 \item{pollutant}{character string with pollutants
@@ -15,8 +14,6 @@ ceip_download(pollutant = c("SOx", "NOx"), year = 2000:2016,
 \item{year}{years to download (all = 2000:2016)}
 
 \item{out_dir}{output directory (default = tempdir())}
-
-\item{base_url}{source url to download data from}
 }
 \value{
 Downloads ceip zip files into the output directory. CRAN policy does

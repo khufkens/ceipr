@@ -9,14 +9,12 @@ Depends:
     R (>= 3.4)
 Imports:
     methods,
-    xml2,
     mapproj,
     maps,
     mapdata,
     tools,
     graphics,
     stats,
-    rvest,
     rgdal,
     raster,
     sp,
@@ -28,6 +26,7 @@ Imports:
     readr,
     purrr,
     httr,
+    eurostat,
     grDevices,
     RColorBrewer,
     maptools

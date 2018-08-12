@@ -7,7 +7,6 @@
 #' (CO, NH3, NMVOC, NOx, PM2_5, PM10, PMcoarse, SOx)
 #' @param year years to download (all = 2000:2016)
 #' @param out_dir output directory (default = tempdir())
-#' @param base_url source url to download data from
 #' @return Downloads ceip zip files into the output directory. CRAN policy does
 #' not allow default settings to write to the userspace so tempdir() is the
 #' default. However, a different directory can be used for caching.
@@ -23,8 +22,11 @@
 ceip_download <- function(
   pollutant = c("SOx", "NOx"),
   year = 2000:2016,
-  out_dir = tempdir(),
-  base_url = "http://webdab1.umweltbundesamt.at/download/gridding2018/"){
+  out_dir = tempdir()){
+
+  # set the base url of the ceip server
+  # might change in the future
+  base_url = "http://webdab1.umweltbundesamt.at/download/gridding2018/"
 
   # check if output directory exists
   if(!dir.exists(out_dir)){

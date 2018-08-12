@@ -132,7 +132,6 @@ convert_to_raster <- function(df) {
 #' the bounding box constraining the object
 #' @keywords emission, voc, polygon, subsetting
 #' @export
-
 maps_to_sp = function(regions = "Belgium",
                       xlim = c(2.4, 6.5),
                       ylim = c(49, 52),
