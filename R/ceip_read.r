@@ -17,14 +17,18 @@
 #' @export
 
 ceip_read <- function(pollutant = "NOx",
-                      sector = toupper(letters[1:13]),
+                      sector = c("A"),
                       year = 2000:2016,
                       country = NULL,
                       path = "~/Desktop/tmp/",
                       silent = FALSE) {
 
   if(pollutant == "ALL") {
-    pollutant <- ceip_sector_meta_data()
+    pollutant <- ceip_pollutant_meta_data()
+  }
+
+  if(sector == "ALL") {
+    sector <- ceip_sector_meta_data()
   }
 
   # progress bar:
