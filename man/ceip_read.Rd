@@ -4,15 +4,20 @@
 \alias{ceip_read}
 \title{Load CEIP zipped data into a tidy data frame}
 \usage{
-ceip_read(pollutant = "NOx", sector = c("A", "B"), year = 2000:2016,
-  path = "~/Desktop/tmp/")
+ceip_read(pollutant = "NOx", sector = c(LETTERS[1:13], "NT"),
+  year = 2000:2016, country = NULL, path = "~/Desktop/tmp/",
+  silent = FALSE)
 }
 \arguments{
-\item{pollutant}{different pollutants}
+\item{pollutant}{which pollutant to include (use "ALL" for all pollutantslet or "NT" for National Totals)}
 
-\item{sector}{CEIP sectors}
+\item{sector}{CEIP sectors (default is all sectors from A to M)}
 
 \item{year}{which years to include in the data compilation}
+
+\item{country}{ISO2 country code (two letters), the euro zone 18 can be
+downloaded with the following string c("AT","BE","CY","EE","FI", "FR","DE",
+"GR","IE","IT","LT","LV","LU","NL","PT","SK","SI","ES") (default = NULL)}
 
 \item{path}{path with original CEIP zip files}
 }
@@ -22,7 +27,7 @@ and can be easily used in statistical analysis. Or converted to geospatial
 data using included functions.
 }
 \description{
-Load data for specified pollutant, for a specific sector and all years from
+Load data for specified pollutant(s), for specified sector(s) and all years from
 a directory of zip files, or an online path. For the latter option your,
 milage might vary and it is recommended to download files of interest first
 using the ceip_download() function as it is less likely to cause time-out

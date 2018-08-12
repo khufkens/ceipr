@@ -11,7 +11,7 @@ ceip_population_emissions(df)
 and supplemented with eurostat data using ceip_add_population()}
 }
 \value{
-Merges the two databasesde
+Merges the two databases
 }
 \description{
 Calculate per capita emissions
