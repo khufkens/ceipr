@@ -1,0 +1,46 @@
+---
+title: "Example report for one country"
+output: html_notebook
+---
+
+```{r results='hide'}
+if(!require(devtools)){install.packages("devtools")}
+devtools::install_github("khufkens/ceipr")
+library(ceipr)
+
+# IMPORTANT - REPLACE THIS WITH YOUR DOWNLOAD DIR:
+dir <- './downloads'
+```
+
+```{r results='hide'}
+country <- 'BE'
+country_data <- ceip_read(pollutant="ALL",sector="ALL",country = country, path = dir)
+country_totals <- ceip_totals(country_data)
+```
+
+# Sector trends per pollutant
+
+```{r results='hide'}
+# pollutants for which we have long-term data:
+pollutants <- c("CO","NH3","NMVOC","NOx","PM10","PM2_5","PMcoarse","SOx")
+pollutants %>%
+  map(function(p) {
+    df <- dplyr::filter(country_totals,pollutant == p,!sector_abbr == "NT")
+    ceip_trends(df,group = 'sector',group_label = "sector",subject = p)
+  })
+```
+
+# Pollutant trends per sector
+
+```{r results='hide'}
+ceipr::ceip_sector_meta_data() %>%
+  map(function(s) {
+    df <- dplyr::filter(country_totals,sector_abbr == s,pollutant %in% pollutants)
+    if (!nrow(df) == 0) {
+      ceip_trends(df,group = 'pollutant',group_label = "pollutant",subject = names(which(ceipr::ceip_sector_meta_data() == s)))
+    }
+  })
+  
+```
+
+
