@@ -30,7 +30,8 @@ Imports:
     grDevices,
     RColorBrewer,
     maptools,
-    dplyr
+    dplyr,
+    countrycode
 Suggests:
     covr,
     testthat

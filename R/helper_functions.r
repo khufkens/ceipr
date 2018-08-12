@@ -22,7 +22,7 @@ ceip_zip_file <- function(path, year, pollutant) {
 ceip_data_file <- function(year, pollutant, sector) {
 
   # read in meta data (sectors)
-  meta_data <- utils::read.table(sprintf("%s/extdata/ceip_meta_data.csv",
+  meta_data <- utils::read.table(sprintf("%s/inst/extdata/ceip_meta_data.csv",
                                          path.package("ceipr")),
                                  sep = ",",
                                  header = TRUE,

@@ -1,6 +1,6 @@
 #' Load CEIP zipped data into a tidy data frame
 #'
-#' Load data for specified pollutant, for a specific sector and all years from
+#' Load data for specified pollutant(s), for specified sector(s) and all years from
 #' a directory of zip files, or an online path. For the latter option your,
 #' milage might vary and it is recommended to download files of interest first
 #' using the ceip_download() function as it is less likely to cause time-out
