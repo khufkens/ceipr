@@ -21,7 +21,7 @@ ceip_read <- function(pollutant = "NOx",
                       path = "~/Desktop/tmp/") {
 
   # list zip files in path
-  zip_files <- list.files(paste0(path, year),"*.zip",
+  zip_files <- list.files(paste0(path, '/' ,year),"*.zip",
                           recursive = TRUE,
                           full.names = TRUE)
 
