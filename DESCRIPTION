@@ -1,8 +1,8 @@
 Package: ceipr
 Title: Centre on Emission Inventories and Projections processing code
 Version: 0.1
-Author: Koen Hufkens <koen.hufkens@gmail.com>
-Maintainer: Koen Hufkens <koen.hufkens@gmail.com>
+Authors@R: c(person("Koen","Hufkens",role=c("aut","cre"),email="koen.hufkens@gmail.com"),
+            person("Thomas","Goorden",role=c("aut"),email="thomas.goorden@gmail.com")) 
 Description: Interface to the Centre on Emission Inventories and Projections
   (CEIP) data.
 Depends:
