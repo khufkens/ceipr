@@ -70,7 +70,7 @@ ceip_read_zip <- function(zip, filename) {
   # comment, delimitir and locale settigns
   delim <- ";"
   comment <- "#"
-  us_locale <- locale(decimal_mark = '.',
+  us_locale <- readr::locale(decimal_mark = '.',
                       grouping_mark = ',')
 
   # read in thet data directly from zip file

@@ -39,9 +39,9 @@ ceip_read <- function(pollutant = "NOx",
   # Thomas Goorden (helper functions), by default
   # all years are automatically included. Selection
   # of the years is done in the ceip_download() function.
-  bind_rows(map(zip_files, function(z) {
-    bind_rows(map(pollutant, function(p) {
-      bind_rows(map(sector, function(s) {
+  dplyr::bind_rows(purrr::map(zip_files, function(z) {
+    dplyr::bind_rows(purrr::map(pollutant, function(p) {
+      dplyr::bind_rows(purrr::map(sector, function(s) {
 
         # extract year from zip file
         filename <- tools::file_path_sans_ext(basename(z))
