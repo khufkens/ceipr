@@ -26,7 +26,11 @@ ceip_read <- function(pollutant = "NOx",
                       path = tempdir()) {
 
   if(pollutant == "ALL") {
-    pollutant <- ceip_sector_meta_data()
+    pollutant <- ceip_pollutant_meta_data()
+  }
+
+  if(sector == "ALL") {
+    sector <- ceip_sector_meta_data()
   }
 
   # progress bar:

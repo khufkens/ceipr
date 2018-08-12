@@ -12,15 +12,16 @@ ceip_zip_file <- function(path, year, pollutant) {
   paste0(path,'/',year,'/',pollutant,'_2018_GRID_',year,'.zip')
 }
 
-# Internal singleton
+# Internal singletons
 sector_meta_data <- NULL
+pollutant_meta_data <- NULL
 
 #' Sector meta data (code, name, etc)
 #' @return sector meta data
 #' @export
 ceip_sector_meta_data <- function() {
    if (is.null(sector_meta_data)) {
-     csv <- utils::read.table(sprintf("%s/inst/extdata/ceip_meta_data.csv",
+     csv <- utils::read.table(sprintf("%s/inst/extdata/ceip_sector_meta_data.csv",
                                                path.package("ceipr")),
                                        sep = ",",
                                        header = TRUE,
@@ -29,6 +30,21 @@ ceip_sector_meta_data <- function() {
      names(sector_meta_data) <- csv$sector
    }
   return(sector_meta_data)
+}
+
+#' Pollutant meta data (codes)
+#' @return pollutant meta data
+#' @export
+ceip_pollutant_meta_data <- function() {
+  if (is.null(pollutant_meta_data)) {
+    csv <- utils::read.table(sprintf("%s/inst/extdata/ceip_pollutant_meta_data.csv",
+                                     path.package("ceipr")),
+                             sep = ",",
+                             header = TRUE,
+                             stringsAsFactors = FALSE)
+    pollutant_meta_data <- csv$pollutant
+  }
+  return(pollutant_meta_data)
 }
 
 #' Formats the name of the CEIP file inside the zip file
