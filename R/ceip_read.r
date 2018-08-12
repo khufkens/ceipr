@@ -10,14 +10,16 @@
 #' @param pollutant which pollutant to include (use "ALL" for all pollutantslet or "NT" for National Totals)
 #' @param year which years to include in the data compilation
 #' @param path path with original CEIP zip files
-#' @param country ISO2 country code (two letters)
+#' @param country ISO2 country code (two letters), the euro zone 18 can be
+#' downloaded with the following string c("AT","BE","CY","EE","FI", "FR","DE",
+#' "GR","IE","IT","LT","LV","LU","NL","PT","SK","SI","ES") (default = NULL)
 #' @return Returns a data frame (tibble) of CEIP data. This data is tidy
 #' and can be easily used in statistical analysis. Or converted to geospatial
 #' data using included functions.
 #' @export
 
 ceip_read <- function(pollutant = "NOx",
-                      sector = c("A"),
+                      sector = c(LETTERS[1:13],"NT"),
                       year = 2000:2016,
                       country = NULL,
                       path = "~/Desktop/tmp/",
@@ -48,6 +50,7 @@ ceip_read <- function(pollutant = "NOx",
                                 full.names = TRUE)
         # subset based upon pollutant
         zip_files <- zip_files[grep(p,basename(zip_files))]
+
         # trap errors if no files are detected
         if(length(zip_files) > 1){
           stop(glue::glue("More than one zip file found for pollutant {p} in year {y}: {zip_files}"))
@@ -65,7 +68,6 @@ ceip_read <- function(pollutant = "NOx",
             # read in data using all necessary specifies
             # query data directly from zip file
             df <- try(ceip_read_zip(z, ceip_data_file(y,p,s)))
-
 
             # trap import errors, mainly corrupted
             # zip files, file will be skipped

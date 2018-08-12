@@ -2,7 +2,7 @@
 % Please edit documentation in R/ancillary_data_functions.r
 \name{ceip_add_population}
 \alias{ceip_add_population}
-\title{Add eurostat population numbers to CEIP data frame}
+\title{Add eurostat population numbers to CEIP data frame. Warning: only available from 2007!}
 \usage{
 ceip_add_population(df)
 }
@@ -13,7 +13,7 @@ ceip_add_population(df)
 Merges the two databases
 }
 \description{
-Add eurostat population numbers to CEIP data frame
+Add eurostat population numbers to CEIP data frame. Warning: only available from 2007!
 }
 \keyword{emission,}
 \keyword{population}
