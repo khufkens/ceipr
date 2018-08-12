@@ -1,3 +1,5 @@
+# TODO: verify functions, dplyr is a mess in packaged functions
+# implict referential behaviour etc.
 
 #' Add eurostat population numbers to CEIP data frame
 #'
