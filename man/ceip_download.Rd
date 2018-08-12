@@ -2,34 +2,36 @@
 % Please edit documentation in R/ceip_download.r
 \name{ceip_download}
 \alias{ceip_download}
-\title{Download and compile emission data from
-the Centre on Emission Inventories and Projections (CEIP)}
+\title{Download zipped Centre on Emission Inventories and Projections (CEIP) data}
 \usage{
-ceip_download(pollutants = c("SOx"), sectors = "A", out_dir = "~",
+ceip_download(pollutant = c("SOx", "NOx"), year = 2000:2016,
+  out_dir = tempdir(),
   base_url = "http://webdab1.umweltbundesamt.at/download/gridding2018/")
 }
 \arguments{
-\item{pollutants}{character string with pollutants
+\item{pollutant}{character string with pollutants
 (CO, NH3, NMVOC, NOx, PM2_5, PM10, PMcoarse, SOx)}
 
-\item{sectors}{different societal sectors for which to compile the data
-as referenced by their abbreviation (A - N & NT)}
+\item{year}{years to download (all = 2000:2016)}
 
-\item{out_dir}{output directory}
+\item{out_dir}{output directory (default = tempdir())}
 
 \item{base_url}{source url to download data from}
 }
 \value{
-geotiff written to disk
+Downloads ceip zip files into the output directory. CRAN policy does
+not allow default settings to write to the userspace so tempdir() is the
+default. However, a different directory can be used for caching.
 }
 \description{
-Download and compile emission data from
-the Centre on Emission Inventories and Projections (CEIP)
+The download routine will recreate the CEIP file structure in the output
+directory (sorting files in folders by year).
 }
 \examples{
 
 \dontrun{
-ceip_download()
+ceip_download(pollutant = "SOx",
+              year = 2000)
 }
 }
 \keyword{emission,}

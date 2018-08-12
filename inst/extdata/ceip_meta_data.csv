@@ -1,7 +1,7 @@
 abbreviation,sector,unit
 A,Public Power,Mg
 B,Industry,Mg
-C,Other Stationary Combustion,Mg
+C,Other Stationary Comb,Mg
 D,Fugitive,Mg
 E,Solvent,Mg
 F,Road Transport,Mg
@@ -9,7 +9,7 @@ G,Shipping,Mg
 H,Aviation,Mg
 I,Offroad,Mg
 J,Waste,Mg
-K,Agriculture - Livestock,Mg
-M,Agriculture - Other,Mg
+K,Agri Livestock,Mg
+M,Agri Other,Mg
 N,Other,Mg
 NT,National Total,Mg

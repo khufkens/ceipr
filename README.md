@@ -1,6 +1,10 @@
+```diff
+- This project is very much in flux... use with caution, things might break!
+```
+
 ## Introduction
 
-Interface Centre on Emission Inventories and Projections (CEIP) data to visualize emission contributions by sector across Europe. All data is sourced from the open CEIP website (www.ceip.at, CEIP 2018). A number of functions allows you to easily download, visualize and analyze the CEIP data.
+Interface Centre on Emission Inventories and Projections (CEIP) data to visualize emission contributions by sector across Europe. All data is sourced from the open CEIP website (www.ceip.at, CEIP 2018). A number of functions allows you to easily download, visualize and analyze the CEIP data. The package is a formalized version of the [CEIP analysis by Thomas Goorden](https://github.com/tgoorden/ceipr-report).
 
 The CEIP data covers data on a number of atmospheric pollutant emissions (CO, NH3, NMVOC, NOx, PM2_5, PM10, PMcoarse, SOx) across various societal sectors. During analysis sectors are referenced using their abbreviation.
 

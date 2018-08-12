@@ -24,6 +24,10 @@ Imports:
     ggthemes,
     rgeos,
     animation,
+    magrittr,
+    readr,
+    purrr,
+    httr,
     grDevices,
     RColorBrewer,
     maptools
