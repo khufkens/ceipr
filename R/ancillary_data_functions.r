@@ -54,16 +54,15 @@ ceip_add_population <- function(df) {
 
 ceip_population_emissions <- function(df) {
   # sanity check:
-  check_for_totals(df)
-
-  # check if the eurostat data is included
-  if(!any(grepl("population", names(df)))){
-    stop("No population data found in the ceipr data frame.
-         Use the ceip_add_population() function to merge in eurostat data.")
+  if(!all(c("total_emissions","population") %in% names(df))) {
+    stop("Data does not contain total_emissions and/or population. Did you run ceip_totals and ceip_add_population on your data?")
   }
 
   # calculate the emissions per capita
-  ceipr$total_emissions_pp <- with(df, 10^6 * emission/population)
+  df$emissions_pp <- with(df, 10^6 * total_emissions/population)
+  # add unit
+  df$unit_pp <- "g"
+  return(df)
 }
 
 #' Summarize emission totals

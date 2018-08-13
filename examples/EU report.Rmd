@@ -1,0 +1,71 @@
+---
+title: "Example EU emission analysis"
+output: html_notebook
+---
+
+```{r results='hide'}
+if(!require(devtools)){install.packages("devtools")}
+devtools::install_github("khufkens/ceipr")
+library(ceipr)
+
+# IMPORTANT - REPLACE THIS WITH YOUR DOWNLOAD DIR:
+dir <- './downloads'
+```
+
+# Load all data for 2016:
+
+```{r results='hide'}
+year <- 2016
+eu_data <- ceip_read(pollutant="ALL",sector="ALL",year = year, path = dir)
+```
+
+```{r}
+# total emissions per country, adding in the population of each EU country in the corresponding year(s):
+eu_totals <- ceip_add_population(ceip_totals(eu_data))
+# filter out the 28 countries in the European Union:
+eu28_totals <- dplyr::filter(eu_totals,eu28 == "EU")
+
+```
+
+# Comparison of total emissions between countries
+
+```{r}
+pollutants <- ceip_pollutant_meta_data()
+pollutants %>%
+  map(function(p) {
+    df <- dplyr::filter(eu28_totals,pollutant == p,sector_abbr == "NT")
+    ceip_compare_totals(df,subject=p)
+  })
+```
+
+# Compare emissions per pollutant per person between countries
+
+```{r}
+pollutants <- ceip_pollutant_meta_data()
+# add the emission per person calculation (WARNING: it also changes the unit to grams!)
+eu28_pp <- ceip_population_emissions(eu28_totals)
+pollutants %>%
+  map(function(p) {
+    df <- dplyr::filter(eu28_pp,pollutant == p,sector_abbr == "NT")
+    ceip_compare_pp(df,subject=p,rank=TRUE)
+  })
+```
+
+# Industry and pollutant specific comparisons
+
+Here we zoom in on specific "problematic" industries.
+
+## NOX and road transport
+
+```{r}
+NOx_transport <- dplyr::filter(eu28_pp,pollutant == "NOx",sector_abbr == "F")
+ceip_compare_pp(NOx_transport,subject="Road tranport - NOx",rank=TRUE)
+
+```
+
+## CO and aviation
+
+```{r}
+CO_aviation <- dplyr::filter(eu28_pp,pollutant == "CO",sector_abbr == "H")
+ceip_compare_pp(CO_aviation,subject="Aviation - CO",rank=TRUE)
+```
