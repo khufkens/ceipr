@@ -35,8 +35,11 @@ Imports:
     glue
 Suggests:
     covr,
-    testthat
+    testthat,
+    knitr,
+    rmarkdown
 License: AGPL-3
 LazyData: true
 ByteCompile: true
 RoxygenNote: 6.1.0
+VignetteBuilder: knitr

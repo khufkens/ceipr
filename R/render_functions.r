@@ -13,6 +13,7 @@
 ceip_trends <- function(df,
                         group = "iso2",
                         group_label = "country",
+                        facet = NULL,
                         subject = "",
                         title = paste(subject,"trends per",
                                       group_label,sep = " ")){
@@ -22,13 +23,22 @@ ceip_trends <- function(df,
 
   unit <- df[1,]$unit
 
-  ggplot2::ggplot(df) +
-    ggplot2::geom_line(mapping= ggplot2::aes_string(x="year",y="total_emissions",color=group)) +
+  p <- ggplot2::ggplot(df) +
+    ggplot2::geom_line(mapping= ggplot2::aes_string(x="year",
+                                                    y="total_emissions",
+                                                    color=group)) +
     ggplot2::labs(
       title = title,
       x = "Year",
       y = glue::glue("Emissions ({unit})"),
       color = group_label)
+
+  if(!is.null(facet)){
+    p <- p + facet_wrap(facets = facet)
+  }
+
+  # return ggplot element
+  return(p)
 }
 
 #' Compare CEIP emissions between years

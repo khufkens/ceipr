@@ -34,7 +34,7 @@ pollutants %>%
 
 ```{r results='hide'}
 ceipr::ceip_sector_meta_data() %>%
-  map(function(s) {
+  purrr::map(function(s) {
     df <- dplyr::filter(country_totals,sector_abbr == s,pollutant %in% pollutants)
     if (!nrow(df) == 0) {
       ceip_trends(df,group = 'pollutant',group_label = "pollutant",subject = names(which(ceipr::ceip_sector_meta_data() == s)))

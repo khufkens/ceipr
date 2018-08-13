@@ -1,0 +1,67 @@
+---
+title: "ceipr"
+author: "Koen Hufkens"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{ceipr functionality}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+# load library
+library(ceipr)
+library(ggplot2)
+library(dplyr)
+library(purrr)
+```
+
+# Downloading data
+
+To download CEIP data use the ceip_download() function. In this example data is stored in the temporary directory as genenerated by tempdir().
+
+```{r}
+ceip_download(pollutant = c("SOx","PM2_5"),
+              year = c(2000, 2016),
+              out_dir = tempdir())
+```
+
+# Read data
+
+After downloading data is cached on disk, avoiding any additional load on the [ceip.at](http://ceip.at) servers.
+
+```{r}
+country_data <- ceip_read(pollutant = c("SOx","PM2_5"),
+                          sector = "ALL",
+                          country = c("BE","FR"),
+                          path = tempdir())
+```
+
+# Post-processing
+
+Country based totals can be calculated using the 
+
+```{r}
+country_totals <- ceip_totals(country_data)
+```
+
+# Sector trends per pollutant and country
+
+```{r results='hide'}
+p = ceip_trends(country_totals,
+            group = 'sector',
+            facet = c('pollutant','iso2'),
+            group_label = "sector",
+            subject = "")
+
+ p + theme_minimal()
+ 
+```
+
+

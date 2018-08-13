@@ -21,7 +21,7 @@ pollutant_meta_data <- NULL
 #' @export
 ceip_sector_meta_data <- function() {
    if (is.null(sector_meta_data)) {
-     csv <- utils::read.table(sprintf("%s/inst/extdata/ceip_sector_meta_data.csv",
+     csv <- utils::read.table(sprintf("%s/extdata/ceip_sector_meta_data.csv",
                                                path.package("ceipr")),
                                        sep = ",",
                                        header = TRUE,
@@ -37,7 +37,7 @@ ceip_sector_meta_data <- function() {
 #' @export
 ceip_pollutant_meta_data <- function() {
   if (is.null(pollutant_meta_data)) {
-    csv <- utils::read.table(sprintf("%s/inst/extdata/ceip_pollutant_meta_data.csv",
+    csv <- utils::read.table(sprintf("%s/extdata/ceip_pollutant_meta_data.csv",
                                      path.package("ceipr")),
                              sep = ",",
                              header = TRUE,
