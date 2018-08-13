@@ -4,12 +4,12 @@
 \alias{ceip_read}
 \title{Load CEIP zipped data into a tidy data frame}
 \usage{
-ceip_read(pollutant = "NOx", sector = c(LETTERS[1:13], "NT"),
-  year = 2000:2016, country = NULL, path = "~/Desktop/tmp/",
-  silent = FALSE)
+ceip_read(pollutant = "NOx", sector = LETTERS[1:13],
+  year = 2000:2016, country = NULL, path = tempdir())
 }
 \arguments{
-\item{pollutant}{which pollutant to include (use "ALL" for all pollutantslet or "NT" for National Totals)}
+\item{pollutant}{which pollutant to include (use "ALL" for all pollutants
+or "NT" for National Totals)}
 
 \item{sector}{CEIP sectors (default is all sectors from A to M)}
 
@@ -19,7 +19,7 @@ ceip_read(pollutant = "NOx", sector = c(LETTERS[1:13], "NT"),
 downloaded with the following string c("AT","BE","CY","EE","FI", "FR","DE",
 "GR","IE","IT","LT","LV","LU","NL","PT","SK","SI","ES") (default = NULL)}
 
-\item{path}{path with original CEIP zip files}
+\item{path}{path with original CEIP zip files (default = tempdir())}
 }
 \value{
 Returns a data frame (tibble) of CEIP data. This data is tidy

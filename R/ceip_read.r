@@ -7,9 +7,10 @@
 #' issues and will limit overall traffic to the server.
 #'
 #' @param sector CEIP sectors (default is all sectors from A to M)
-#' @param pollutant which pollutant to include (use "ALL" for all pollutantslet or "NT" for National Totals)
+#' @param pollutant which pollutant to include (use "ALL" for all pollutants
+#' or "NT" for National Totals)
 #' @param year which years to include in the data compilation
-#' @param path path with original CEIP zip files
+#' @param path path with original CEIP zip files (default = tempdir())
 #' @param country ISO2 country code (two letters), the euro zone 18 can be
 #' downloaded with the following string c("AT","BE","CY","EE","FI", "FR","DE",
 #' "GR","IE","IT","LT","LV","LU","NL","PT","SK","SI","ES") (default = NULL)
@@ -19,11 +20,10 @@
 #' @export
 
 ceip_read <- function(pollutant = "NOx",
-                      sector = c(LETTERS[1:13],"NT"),
+                      sector = LETTERS[1:13],
                       year = 2000:2016,
                       country = NULL,
-                      path = "~/Desktop/tmp/",
-                      silent = FALSE) {
+                      path = tempdir()) {
 
   if(pollutant == "ALL") {
     pollutant <- ceip_pollutant_meta_data()
