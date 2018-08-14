@@ -12,6 +12,9 @@ library(ceipr)
 dir <- './downloads'
 ```
 
+
+
+
 # Load all data for 2016:
 
 ```{r results='hide'}
@@ -69,3 +72,24 @@ ceip_compare_pp(NOx_transport,subject="Road tranport - NOx",rank=TRUE)
 CO_aviation <- dplyr::filter(eu28_pp,pollutant == "CO",sector_abbr == "H")
 ceip_compare_pp(CO_aviation,subject="Aviation - CO",rank=TRUE)
 ```
+
+# MAPS
+
+## NOx - transportation
+
+```{r}
+NOx_transport_data <- dplyr::filter(eu_data,pollutant == "NOx",sector_abbr == "F",iso2 %in% c("BE","FR","NL","LU","GB","DE","IE"))
+NOx_raster <- convert_to_raster(NOx_transport_data,trim = TRUE)
+raster::plot(NOx_raster,maxpixels=624000)
+```
+
+```{r}
+CO_aviation_data <- dplyr::filter(eu_data,pollutant == "CO",sector_abbr == "I",iso2 %in% c("BE","FR","NL","LU","GB","DE","IE"))
+CO_raster <- convert_to_raster(CO_aviation_data,trim = TRUE)
+raster::plot(CO_raster,maxpixels=624000)
+```
+
+```{r}
+vehicle_shares <- eurostat::get_eurostat("sdg_09_50")
+```
+

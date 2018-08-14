@@ -78,3 +78,46 @@ ceip_to_raster <- function(df,
                         overwrite = TRUE)
   }
 }
+
+#'
+#' @export
+ceip_to_raster_v2 <- function(df,year = 2000:2016,trim = TRUE,out_dir = NULL) {
+
+  if(!all(c("year","emission","longitude","latitude") %in% names(df))) {
+    stop("Data does not contain the required variables (year, emission, longitude, latitude? Are you using data from ceip_read?")
+  }
+
+  # convert the data from a dataframe to a raster
+  # for a subset of the data
+  rasters <- year %>%
+    map(function(y)
+      dplyr::filter(df,year == y) %>%
+      ceipr::convert_to_raster()
+    )
+
+  # combine all data into a stack
+  rasters <- raster::stack(rasters)
+
+  # check if there is data in the resulting
+  # raster stack if not bail
+  if (raster::nlayers(rasters) == 0){
+    stop("Data subset is empty, check your input parameters and data file!")
+  }
+
+  # if required trim the raster
+  # shrink extent to data coverage
+  if (trim){
+    rasters <- raster::trim(rasters)
+  }
+
+  # if no output directory specified
+  # return the raster stack
+  # otherwise write to file
+  if(is.null(out_dir)){
+    return(rasters)
+  } else {
+    raster::writeRaster(rasters,
+                        paste0(out_dir,'/',pollutant,'_',sector,'.tif'),
+                        overwrite = TRUE)
+  }
+}

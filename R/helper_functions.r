@@ -123,8 +123,7 @@ ceip_read_zip <- function(zip, filename) {
 #' @return raster layer
 #' @export
 #'
-convert_to_raster <- function(df) {
-
+convert_to_raster <- function(df,trim=FALSE) {
   # create the grid as defined here:
   # http://webdab1.umweltbundesamt.at/download/01GridData/
   # EMEP_gridding_system_documentation.pdf
@@ -148,6 +147,9 @@ convert_to_raster <- function(df) {
   # fill with the corresponding values
   # from the spatial data frame (rasterize)
   r <- raster::rasterize(df, r, field = "emission")
+  if (trim) {
+    r <- raster::trim(r)
+  }
   return(r)
   }
 }
